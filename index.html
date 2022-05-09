@@ -49,7 +49,6 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>MOTIVATION</h3>
-          <h5>Title description, <span class="w3-opacity">May 2, 2016</span></h5>
           <img src="/images/motivation.jpg" alt="Girl Hat" style="width:70%" class="w3-padding-16">
 
         </div>
@@ -68,7 +67,6 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>PRIOR WORK</h3>
-          <h5>Title description, <span class="w3-opacity">April 23, 2016</span></h5>
           <img src="/images/prior.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16">
         </div>
 
@@ -86,11 +84,10 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>OUR IDEA</h3>
-          <h5>Title description, <span class="w3-opacity">April 23, 2016</span></h5>
         </div>
 
         <div class="w3-justify">
-          <p><strong>Hats!</strong>The idea of this project is to facilitate customers to try-on clothes virtually to see if they like how they look in the chosen clothes and in turn make more informed purchase decisions with an overall improved shopping experience. In order to achieve this, the system is designed such that given an input person image and a desired clothing article image, the model combines the image of the clothing article with the image of the customer in their corresponding pose to generate a new image of the user wearing the selected clothing item. </p>
+          <p>The idea of this project is to facilitate customers to try-on clothes virtually to see if they like how they look in the chosen clothes and in turn make more informed purchase decisions with an overall improved shopping experience. In order to achieve this, the system is designed such that given an input person image and a desired clothing article image, the model combines the image of the clothing article with the image of the customer in their corresponding pose to generate a new image of the user wearing the selected clothing item. </p>
           <p>As mentioned earlier, virtual try-on systems with arbitrary human poses face several challenges such as segmentation, in-stitching and misalignment when dealing with different poses and so this project aims to work towards making some contribution in this direction by exploring new methodologies and making improvements upon existing models.</p>
           <div class="w3-center">
           <figure>
@@ -138,15 +135,14 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>RESULTS</h3>
-          <h5>Title description, <span class="w3-opacity">April 23, 2016</span></h5>
-          <img src="/images/ssim.jpg" style="width:70%" class="w3-padding-16">
+          <img src="/images/ssim.jpg" style="width:50%" class="w3-padding-16">
 
         </div>
 
         <div class="w3-justify">
-          <p><strong></strong> Our final model was able to achieve a SSIM value of 0.7447 which beat the SSIM score achieved by the original architecture at 0.7369 (for stage 3) as reported in the referenced research paper and is also equal to the MG-VTON architecture which has a SSIM score of 0.744 and is the current state-of-the-art model on DeepFashion dataset.</p>
+          <p> Our final model was able to achieve a SSIM value of 0.7447 which beat the SSIM score achieved by the original architecture at 0.7369 (for stage 3) as reported in the referenced research paper and is also equal to the MG-VTON architecture which has a SSIM score of 0.744 and is the current state-of-the-art model on DeepFashion dataset.</p>
           <div class="w3-center">
-          <img src="/images/resulttable.jpg" style="width:70%" class="w3-padding-16">
+          <img src="/images/resulttable.jpg" style="width:50%" class="w3-padding-16">
           </div>
           <p>The second parameter for comparison used in the original paper was Inception Score. In our implementation after making the model changes, unfortunately we kept getting the inception score for all generated images as either 1.0 or ‘NaN’. We tried fixing the issue by using various different frameworks as well as writing our own code to compute the IS, however the issue continued to persist and we couldn’t get proper values unless we made changes in the formula of Inception score calculation itself because of the nature of values getting returned after passing our generated tensor through Inception-V3 model. Therefore, we have removed IS as a criteria of comparison between our model and the baseline model in the final results.</p>
           <p>Lastly, we had noticed that the UNet++ architecture used by the original pipeline for image segmentation as part of the original pre-processing had some drawbacks in the form of leaving out very apparent borders of the segmented region, which made the final output look bad. In order to overcome this, we tried using DeepLabV3+ pre-trained architecture as a replacement to UNet++ for better image segmentation. However, this experimentation failed as we did not achieve better results using this. One of the reasons that we can think of for this failure is that we were unable to fine-tune the DeepLabV3 pre-trained model properly which resulted in suboptimal results. Therefore,we stuck with UNet++ in the end.</p>
@@ -159,11 +155,9 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>SUMMARY AND CONCLUSION</h3>
-          <h5>Title description, <span class="w3-opacity">April 23, 2016</span></h5>
         </div>
 
         <div class="w3-justify">
-          <p><strong>Hats!</strong> The trend this summer is hats for men!</p>
           <p>In conclusion, we tried modifying various different components of the original GAN architecture that we chose. While some of our modifications did not end up working out as expected, we achieved our overall objective and our experiments were successful in improving the performance of the baseline PolyGAN model that we chose. However, the task of Virtual Try-On is largely still unsolved and we still have a long way to go to achieve more realistic results that can actually be used in an e-commerce application. </p>
           <div class="w3-row w3-margin-bottom">
           </div>
@@ -174,11 +168,9 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>FUTURE DIRECTIONS</h3>
-          <h5>Title description, <span class="w3-opacity">April 23, 2016</span></h5>
         </div>
 
         <div class="w3-justify">
-          <p><strong>Hats!</strong> The trend this summer is hats for men!</p>
           <p>For future directions, we would like to fix the bug currently present in our inception score calculation. We would also like to explore the idea of applying color correction as a post-processing step in order to make the final output image quality better and more realistic since the images that get generated currently have a skin tone on the face that does not match with the rest of the body.</p>
           <div class="w3-row w3-margin-bottom">
           </div>
@@ -190,14 +182,10 @@ and is wrapped around the whole page content, except for the footer in this exam
       <div class="w3-container w3-white w3-margin w3-padding-large">
         <div class="w3-center">
           <h3>LINK TO CODE</h3>
-          <h5>Title description, <span class="w3-opacity">April 23, 2016</span></h5>
         </div>
 
         <div class="w3-justify">
-          <img src="/w3images/man_hat.jpg" alt="Men in Hats" style="width:100%" class="w3-padding-16">
-          <p><strong>Hats!</strong> The trend this summer is hats for men!</p>
-          <p>Some text about this blog entry. Fashion fashion and mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies
-            mi non congue ullam corper. Praesent tincidunt sedtellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+          <p><a href='https://github.com/ishita-cmu/ishita-cmu.github.io'>Click Here!</a></p>
           <div class="w3-row w3-margin-bottom">
           </div>
         </div>
