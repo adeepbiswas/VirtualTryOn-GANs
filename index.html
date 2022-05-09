@@ -92,14 +92,18 @@ and is wrapped around the whole page content, except for the footer in this exam
         <div class="w3-justify">
           <p><strong>Hats!</strong>The idea of this project is to facilitate customers to try-on clothes virtually to see if they like how they look in the chosen clothes and in turn make more informed purchase decisions with an overall improved shopping experience. In order to achieve this, the system is designed such that given an input person image and a desired clothing article image, the model combines the image of the clothing article with the image of the customer in their corresponding pose to generate a new image of the user wearing the selected clothing item. </p>
           <p>As mentioned earlier, virtual try-on systems with arbitrary human poses face several challenges such as segmentation, in-stitching and misalignment when dealing with different poses and so this project aims to work towards making some contribution in this direction by exploring new methodologies and making improvements upon existing models.</p>
-          <p style="text-align:center;">
+          <div>
           <figure>
           <img src="/images/polygan.jpg" style="width:70%" class="w3-padding-16 center">
           <figcaption class = "center">Poly-GAN Architecture </figcaption>
           </figure>
-          </p>
+          </div>
+          div {
+                text-align: center;
+              }
+
           <p>MG-VTON stands to be the state-of-the-art benchmark on the Deep Fashion Dataset. However, for the purpose of this project Poly-GAN was taken as the baseline model due to its greater flexibility and scope for improvement. Poly-GAN uses a common architecture for all three stages (pose-estimator and clothing shape transformation, stitching of desired clothes onto the human parse map, inpainting/refinement rendering). GANs by nature are very difficult and time consuming to train and so for the scope of this project, only stage 3 was taken as the point of focus to be experimented with.</p>
-          <p style="text-align:center;">
+          <div>
           <figure>
           <img src="/images/methodologybefore.jpg" style="width:70%" class="w3-padding-16 center">
           <figcaption class = "center">Before </figcaption>
@@ -108,11 +112,15 @@ and is wrapped around the whole page content, except for the footer in this exam
           <img src="/images/methodologyafter.jpg" style="width:70%" class="w3-padding-16 center">
           <figcaption class = "center">After </figcaption>
           </figure>
-          </p>
+          </div>
+          div {
+                text-align: center;
+              }
+
           
           <p>The first idea to be implemented was to add additional skip connections. The authors of the original paper initially tried to add skip connections between the encoder and decoder at spatial resolutions above (16x16) but found that it led to the generated image not being deformable enough to be close to the ground truth. If no skip connections above the spatial resolution of (16x16) were used, then the problem of missing minute details arises in the generated image. Using skip connection to connect all layers of the encoder to their respective decoder layers would help in passing minute details from the encoder side, but would also hinder learning and generating new images effectively. Therefore, building from their learning that a skip connection from a spatial resolution greater than 16x16 would pose a problem, skip connections were added from the 16x16 layer of the encoder to all the remaining subsequent layers of the decoder in order to help pass more minute information through the network. This extra information helped the model generate and decode better quality images without hindering the training process.</p>
           
-          <p style="text-align:center;">
+          <div>
           <figure>
           <img src="/images/beforeminibatch.jpg" style="width:70%" class="w3-padding-16 center">
           <figcaption class = "center">Before </figcaption>
@@ -121,7 +129,11 @@ and is wrapped around the whole page content, except for the footer in this exam
           <img src="/images/afterminibatch.jpg" style="width:70%" class="w3-padding-16 center">
           <figcaption class = "center">After </figcaption>
           </figure>
-          </p>
+          </div>
+          div {
+                text-align: center;
+              }
+
           
           <p>The second idea was to modify the architecture of the discriminator. The discriminator used in the original Poly-GAN architecture is the same as the discriminator used in the Super Resolution GAN Ledig et al. [5]. This was a novel architecture released back in 2017 since which several other contemporary state-of-the-art architectures and techniques have been created to improve the performance of GANs. Model collapse is a common issue faced during the training of GANs. When this happens, all the images created end up looking similar. In order to mitigate this problem, real images and generated images are fed into the discriminator separately in different batches and the similarity between image x and other images in the same batch is computed. The similarity o(x) is appended in one of the dense layers in the discriminator, in this case the final layer,  to classify whether this image is real or generated. Minibatch discrimination helps generate visually appealing samples very quickly, and in therefore superior to techniques such as feature matching in this regard.</p>
           <p>The third idea was to replace the ResNet module in the encoder with a vision transformer. This idea incepted from the fact that vision transformers have been found to incorporate more global information than ResNets at lower layers often leading to quantitatively different features. Furthermore, they tend to outperform CNN based architectures by a multiplicative factor in terms of both computational efficiency and accuracy. However, this proved to be infeasible as we later realized that a pre-trained transformer could not be used with the GAN since its generator takes in noise as input during training whereas the image distribution on which the transformer was trained would be quite different. Another option would’ve been to train the transformer from scratch which again proved infeasible due to the limitation of time and resources.</p>
@@ -141,8 +153,9 @@ and is wrapped around the whole page content, except for the footer in this exam
 
         <div class="w3-justify">
           <p><strong></strong> Our final model was able to achieve a SSIM value of 0.7447 which beat the SSIM score achieved by the original architecture at 0.7369 (for stage 3) as reported in the referenced research paper and is also equal to the MG-VTON architecture which has a SSIM score of 0.744 and is the current state-of-the-art model on DeepFashion dataset.</p>
-          <p>Some text about this blog entry. Fashion fashion and mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies
-            mi non congue ullam corper. Praesent tincidunt sedtellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+          <img src="/images/resulttable.jpg" style="width:70%" class="w3-padding-16">
+          <p>The second parameter for comparison used in the original paper was Inception Score. In our implementation after making the model changes, unfortunately we kept getting the inception score for all generated images as either 1.0 or ‘NaN’. We tried fixing the issue by using various different frameworks as well as writing our own code to compute the IS, however the issue continued to persist and we couldn’t get proper values unless we made changes in the formula of Inception score calculation itself because of the nature of values getting returned after passing our generated tensor through Inception-V3 model. Therefore, we have removed IS as a criteria of comparison between our model and the baseline model in the final results.</p>
+          <p>Lastly, we had noticed that the UNet++ architecture used by the original pipeline for image segmentation as part of the original pre-processing had some drawbacks in the form of leaving out very apparent borders of the segmented region, which made the final output look bad. In order to overcome this, we tried using DeepLabV3+ pre-trained architecture as a replacement to UNet++ for better image segmentation. However, this experimentation failed as we did not achieve better results using this. One of the reasons that we can think of for this failure is that we were unable to fine-tune the DeepLabV3 pre-trained model properly which resulted in suboptimal results. Therefore,we stuck with UNet++ in the end.</p>
           <div class="w3-row w3-margin-bottom">
           </div>
         </div>
