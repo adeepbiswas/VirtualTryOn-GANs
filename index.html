@@ -93,29 +93,29 @@ and is wrapped around the whole page content, except for the footer in this exam
           <p><strong>Hats!</strong>The idea of this project is to facilitate customers to try-on clothes virtually to see if they like how they look in the chosen clothes and in turn make more informed purchase decisions with an overall improved shopping experience. In order to achieve this, the system is designed such that given an input person image and a desired clothing article image, the model combines the image of the clothing article with the image of the customer in their corresponding pose to generate a new image of the user wearing the selected clothing item. </p>
           <p>As mentioned earlier, virtual try-on systems with arbitrary human poses face several challenges such as segmentation, in-stitching and misalignment when dealing with different poses and so this project aims to work towards making some contribution in this direction by exploring new methodologies and making improvements upon existing models.</p>
           <figure>
-          <img src="/images/model.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16">
-          <figcaption>Poly-GAN Architecture </figcaption>
+          <img src="/images/polygan.jpg" style="width:70%" class="w3-padding-16 center">
+          <figcaption class = "center">Poly-GAN Architecture </figcaption>
           </figure>
           <p>MG-VTON stands to be the state-of-the-art benchmark on the Deep Fashion Dataset. However, for the purpose of this project Poly-GAN was taken as the baseline model due to its greater flexibility and scope for improvement. Poly-GAN uses a common architecture for all three stages (pose-estimator and clothing shape transformation, stitching of desired clothes onto the human parse map, inpainting/refinement rendering). GANs by nature are very difficult and time consuming to train and so for the scope of this project, only stage 3 was taken as the point of focus to be experimented with.</p>
           
           <figure>
-          <img src="/images/methodologybefore.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16">
-          <figcaption>Before </figcaption>
+          <img src="/images/methodologybefore.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16 center">
+          <figcaption class = "center">Before </figcaption>
           </figure>
           <figure>
-          <img src="/images/methodologyafter.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16">
-          <figcaption>After </figcaption>
+          <img src="/images/methodologyafter.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16 center">
+          <figcaption class = "center">After </figcaption>
           </figure>
           
           <p>The first idea to be implemented was to add additional skip connections. The authors of the original paper initially tried to add skip connections between the encoder and decoder at spatial resolutions above (16x16) but found that it led to the generated image not being deformable enough to be close to the ground truth. If no skip connections above the spatial resolution of (16x16) were used, then the problem of missing minute details arises in the generated image. Using skip connection to connect all layers of the encoder to their respective decoder layers would help in passing minute details from the encoder side, but would also hinder learning and generating new images effectively. Therefore, building from their learning that a skip connection from a spatial resolution greater than 16x16 would pose a problem, skip connections were added from the 16x16 layer of the encoder to all the remaining subsequent layers of the decoder in order to help pass more minute information through the network. This extra information helped the model generate and decode better quality images without hindering the training process.</p>
           
           <figure>
-          <img src="/images/beforeminibatch.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16">
-          <figcaption>Before </figcaption>
+          <img src="/images/beforeminibatch.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16 center">
+          <figcaption class = "center">Before </figcaption>
           </figure>
           <figure>
-          <img src="/images/afterminibatch.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16">
-          <figcaption>After </figcaption>
+          <img src="/images/afterminibatch.jpg" alt="Men in Hats" style="width:70%" class="w3-padding-16 center">
+          <figcaption class = "center">After </figcaption>
           </figure>
           
           <p>The second idea was to modify the architecture of the discriminator. The discriminator used in the original Poly-GAN architecture is the same as the discriminator used in the Super Resolution GAN Ledig et al. [5]. This was a novel architecture released back in 2017 since which several other contemporary state-of-the-art architectures and techniques have been created to improve the performance of GANs. Model collapse is a common issue faced during the training of GANs. When this happens, all the images created end up looking similar. In order to mitigate this problem, real images and generated images are fed into the discriminator separately in different batches and the similarity between image x and other images in the same batch is computed. The similarity o(x) is appended in one of the dense layers in the discriminator, in this case the final layer,  to classify whether this image is real or generated. Minibatch discrimination helps generate visually appealing samples very quickly, and in therefore superior to techniques such as feature matching in this regard.</p>
