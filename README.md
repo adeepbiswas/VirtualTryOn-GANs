@@ -1,6 +1,9 @@
 # VirtualTryOn-GANs
 This repository contains the implementation of a virtual clothing try-on system using Generative Adversarial Networks (GANs). The project aims to generate realistic images of a person wearing different clothing items, given an image of the person and an image of the clothing item.
 
+# Project Website
+https://ishita-cmu.github.io/
+
 # Main Components
 The main components of the project are:
 
@@ -33,7 +36,7 @@ The complete list of dependencies can be found in the requirements.txt file.
 Please note that you might need to adjust the paths in the scripts according to your local setup.
 
 # Additional Information
-For more information about the project, please refer to the index.html file. This webpage provides detailed information about the project's motivation, prior work, idea, methodology, results, conclusion, future directions, and references.
+For more information about the project, please refer to https://ishita-cmu.github.io/ This webpage provides detailed information about the project's motivation, prior work, idea, methodology, results, conclusion, future directions, and references.
 
 # License
 This project is licensed under the MIT License.
